@@ -1,0 +1,11 @@
+[package]
+name = "fixture-parser"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Parses sports fixture lists from files or stdin"
+readme = "README.md"
+
+[lib]
+name = "fixture_parser"
+path = "src/lib.rs"
