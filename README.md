@@ -77,6 +77,6 @@ pub struct Fixture {
 
 ## Status
 
-Early skeleton. Dates are parsed and range-checked but not validated
-against a real calendar (leap years, days-per-month) yet - see the roadmap
-in the commit history for what's planned next.
+Early skeleton. Dates are validated against a real calendar (leap years,
+days-per-month), but only the pipe-delimited format above is supported so
+far - see the roadmap in the commit history for what's planned next.

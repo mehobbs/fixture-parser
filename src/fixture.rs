@@ -3,14 +3,25 @@ use std::fmt;
 
 use crate::FixtureError;
 
-// Kept deliberately loose: real calendars have leap years and varying
-// month lengths, but a fixture list only needs "is this plausibly a date",
-// not a full calendar. Tighten this once bad input actually shows up.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Date {
     pub year: u16,
     pub month: u8,
     pub day: u8,
+}
+
+fn is_leap_year(year: u16) -> bool {
+    (year % 4 == 0 && year % 100 != 0) || year % 400 == 0
+}
+
+fn days_in_month(year: u16, month: u8) -> u8 {
+    match month {
+        1 | 3 | 5 | 7 | 8 | 10 | 12 => 31,
+        4 | 6 | 9 | 11 => 30,
+        2 if is_leap_year(year) => 29,
+        2 => 28,
+        _ => unreachable!("month is range-checked before this is called"),
+    }
 }
 
 impl Date {
@@ -37,8 +48,12 @@ impl Date {
         if !(1..=12).contains(&month) {
             return Err(format!("month {} out of range in date '{}'", month, s));
         }
-        if !(1..=31).contains(&day) {
-            return Err(format!("day {} out of range in date '{}'", day, s));
+        let max_day = days_in_month(year, month);
+        if day == 0 || day > max_day {
+            return Err(format!(
+                "day {} out of range for {:04}-{:02} (max {}) in date '{}'",
+                day, year, month, max_day, s
+            ));
         }
 
         Ok(Date { year, month, day })
