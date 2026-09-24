@@ -24,20 +24,34 @@ file and a stdin pipe are handled identically.
 
 ## Format
 
-One fixture per line, pipe-separated:
+One fixture per line, in either of two formats. Which one applies is
+decided per line, by whether it contains a `|`, so a file can mix both.
+
+Pipe-separated:
 
 ```
 DATE | HOME v AWAY | COMPETITION
 ```
 
-`COMPETITION` is optional. Blank lines and lines starting with `#` are
-ignored.
+CSV:
+
+```
+DATE,HOME,AWAY,COMPETITION
+```
+
+A CSV team name containing a comma can be quoted (`"Bath, City"`); a
+doubled quote (`""`) inside a quoted field is an escaped quote.
+
+`COMPETITION` is optional in both formats. Blank lines and lines starting
+with `#` are ignored.
 
 ```
 # week 4
 2026-09-19 | Arsenal v Chelsea | Premier League
 2026-09-20 | Celtic v Rangers | Scottish Premiership
 2026-09-20 | Bath v Leicester
+2026-09-21,Newcastle,Everton,Premier League
+2026-09-21,Hearts,Hibernian
 ```
 
 ## Usage
@@ -78,5 +92,5 @@ pub struct Fixture {
 ## Status
 
 Early skeleton. Dates are validated against a real calendar (leap years,
-days-per-month), but only the pipe-delimited format above is supported so
-far - see the roadmap in the commit history for what's planned next.
+days-per-month), and both the pipe-delimited and CSV formats above are
+supported - see the roadmap in the commit history for what's planned next.
