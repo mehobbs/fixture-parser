@@ -5,8 +5,10 @@ use std::io::{self, BufRead, BufReader, Read};
 use std::path::Path;
 
 mod fixture;
+mod query;
 
 pub use fixture::{Date, Fixture, ParseError};
+pub use query::{for_team, in_date_range, sort_by_date};
 
 #[derive(Debug)]
 pub enum FixtureError {

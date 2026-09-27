@@ -89,6 +89,24 @@ pub struct Fixture {
 }
 ```
 
+## Sorting and filtering
+
+```rust
+let mut fixtures = fixture_parser::from_path("fixtures.txt")?;
+fixture_parser::sort_by_date(&mut fixtures);
+
+let matchweek = fixture_parser::in_date_range(
+    &fixtures,
+    fixture_parser::Date { year: 2026, month: 9, day: 19 },
+    fixture_parser::Date { year: 2026, month: 9, day: 21 },
+);
+
+let arsenal_games = fixture_parser::for_team(&fixtures, "Arsenal");
+```
+
+`for_team` matches a team whether it's playing home or away, and ignores
+case. `in_date_range` is inclusive of both endpoints.
+
 ## Status
 
 Early skeleton. Dates are validated against a real calendar (leap years,
